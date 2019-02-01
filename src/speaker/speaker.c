@@ -100,11 +100,6 @@ speaker_context speaker_init(int pin)
         return NULL;
     }
 
-#if defined(UPM_PLATFORM_LINUX)
-    // Would prefer, but not fatal if not available
-    mraa_gpio_use_mmaped(dev->gpio, 1);
-#endif // UPM_PLATFORM_LINUX
-
     mraa_gpio_dir(dev->gpio, MRAA_GPIO_OUT);
 
     return dev;
@@ -206,8 +201,7 @@ upm_result_t speaker_emit(const speaker_context dev, unsigned int freq,
     if (speaker_set_frequency(dev, freq))
         return UPM_ERROR_OPERATION_FAILED;
 
-    upm_clock_t clock;
-    upm_clock_init(&clock);
+    upm_clock_t clock = upm_clock_init();
 
     mraa_pwm_enable(dev->pwm, 1);
     while (upm_elapsed_ms(&clock) < emit_ms)

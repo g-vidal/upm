@@ -150,7 +150,7 @@ static rn2903_context _rn2903_postinit(rn2903_context dev,
         rn2903_close(dev);
         return NULL;
     }
-    strncpy(dev->hardware_eui, dev->resp_data, RN2903_MAX_HEX_EUI64);
+    memcpy(dev->hardware_eui, dev->resp_data, RN2903_MAX_HEX_EUI64);
 
     return dev;
 }
@@ -317,8 +317,7 @@ RN2903_RESPONSE_T rn2903_waitfor_response(const rn2903_context dev,
     memset(dev->resp_data, 0, RN2903_MAX_BUFFER);
     dev->resp_len = 0;
 
-    upm_clock_t clock;
-    upm_clock_init(&clock);
+    upm_clock_t clock = upm_clock_init();
     uint32_t elapsed = 0;
 
     do

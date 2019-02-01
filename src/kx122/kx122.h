@@ -22,6 +22,8 @@
 * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -29,6 +31,7 @@ extern "C"{
 #include <assert.h>
 #include <unistd.h>
 #include <math.h>
+#include <sys/types.h>
 
 #include <mraa/i2c.h>
 #include <mraa/spi.h>

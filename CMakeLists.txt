@@ -91,12 +91,15 @@ endfunction ()
 
 # Compiler flags common to both C and CXX
 # Enable -Wall
-# GCC-6 added -Wmisleading-indentation to -Wall, skip these for now
 set (C_CXX_WARNING_FLAGS -Wall
-    -Wno-misleading-indentation
     -Wno-strict-aliasing
     -Wno-deprecated-declarations # Temp fix for MRAA deprecated methods
     )
+
+# GCC-6 added -Wmisleading-indentation to -Wall, skip these for now
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "6")
+  list (APPEND C_CXX_WARNING_FLAGS -Wno-misleading-indentation)
+endif ()
 
 # Warnings as errors?
 if (WERROR)
@@ -149,6 +152,11 @@ pkg_check_modules (MODBUS libmodbus>=3.1.2)
 
 # Check for OPENZWAVE
 pkg_check_modules (OPENZWAVE libopenzwave)
+
+# Check for TinyB
+pkg_check_modules (TINYB tinyb>=0.5.1)
+# And get full path to the tinyb library
+find_library(TINYB_LIBRARY NAMES tinyb HINTS ${TINYB_LIBDIR})
 
 # Find JPEG
 find_package (JPEG)

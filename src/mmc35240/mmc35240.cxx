@@ -2,24 +2,11 @@
  * Author: Lay, Kuan Loon <kuan.loon.lay@intel.com>
  * Copyright (c) 2016 Intel Corporation.
  *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
+ * This program and the accompanying materials are made available under the
+ * terms of the The MIT License which is available at
+ * https://opensource.org/licenses/MIT.
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * SPDX-License-Identifier: MIT
  */
 
 #include <iostream>
@@ -62,7 +49,7 @@ MMC35240::MMC35240(int device)
     }
     m_scale = 1;
     m_iio_device_num = device;
-    sprintf(trigger, "hrtimer-mmc35240-hr-dev%d", device);
+    snprintf(trigger, 64, "hrtimer-mmc35240-hr-dev%d", device);
 
     if (mraa_iio_create_trigger(m_iio, trigger) != MRAA_SUCCESS)
         fprintf(stderr, "Create trigger %s failed\n", trigger);
@@ -192,7 +179,7 @@ bool
 MMC35240::enable3AxisChannel()
 {
     char trigger[64];
-    sprintf(trigger, "mmc35240-hr-dev%d", m_iio_device_num);
+    snprintf(trigger, 64, "mmc35240-hr-dev%d", m_iio_device_num);
 
     mraa_iio_write_string(m_iio, "trigger/current_trigger", trigger);
     mraa_iio_write_int(m_iio, "scan_elements/in_magn_x_en", 1);
